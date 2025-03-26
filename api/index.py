@@ -1,8 +1,12 @@
-from flask import Flask, session, redirect, request, render_template, url_for
+from flask import Flask, session, redirect, request, render_template, url_for, send_from_directory
 import random
+import os
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
 app.secret_key = 'your_secret_key'
+
+# Create static/images directory if it doesn't exist
+os.makedirs(os.path.join(os.path.dirname(__file__), 'static', 'images'), exist_ok=True)
 
 PROGRAMMING_WORDS = ["python", "developer", "algorithm", "programming", "javascript", "database", "framework", "encryption"]
 ENGLISH_WORDS = ["cat", "dog", "book", "fish", "home", "tree", "bird", "game", "play", "jump", "happy", "world", "smile"]
@@ -88,6 +92,10 @@ def make_guess():
         "game_over": game_over,
         "image_url": image_url
     }
+
+@app.route('/static/images/<path:filename>')
+def serve_image(filename):
+    return send_from_directory(os.path.join(app.static_folder, 'images'), filename)
 
 if __name__ == '__main__':
     app.run(debug=True, port=3000)
