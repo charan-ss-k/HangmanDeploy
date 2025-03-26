@@ -80,7 +80,7 @@ def programming_game():
                          attempts=6,
                          message="",
                          game_over=False,
-                         game_mode='Programming Words')
+                         game_mode='EASY_MODE')
 
 @app.route('/app2')
 def english_game():
@@ -91,7 +91,7 @@ def english_game():
                          attempts=6,
                          message="",
                          game_over=False,
-                         game_mode='English Words')
+                         game_mode='HARD_MODE')
 
 @app.route('/guess', methods=['POST'])
 def make_guess():
