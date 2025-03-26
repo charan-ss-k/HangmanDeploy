@@ -25,7 +25,7 @@
             margin-bottom: 30px;
             font-size: 2.5em;
         }
-        .difficulty-btn {
+        .game-btn {
             display: inline-block;
             padding: 15px 30px;
             margin: 10px;
@@ -34,18 +34,21 @@
             border-radius: 8px;
             cursor: pointer;
             transition: transform 0.2s, box-shadow 0.2s;
+            text-decoration: none;
         }
-        .easy {
+        .programming {
             background-color: #28a745;
             color: white;
         }
-        .hard {
+        .english {
             background-color: #dc3545;
             color: white;
         }
-        .difficulty-btn:hover {
+        .game-btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            color: white;
+            text-decoration: none;
         }
         .description {
             margin-top: 20px;
@@ -59,12 +62,12 @@
         <h1>Welcome to Hangman Game</h1>
         <p class="description">Choose your game mode:</p>
         <div>
-            <a href="/app1" class="difficulty-btn easy">Programming Words</a>
-            <a href="/app2" class="difficulty-btn hard">English Words</a>
+            <a href="/app1" class="game-btn programming">Programming Words</a>
+            <a href="/app2" class="game-btn english">English Words</a>
         </div>
         <div class="description">
             <p><strong>Programming Words:</strong> Guess programming-related terms</p>
-            <p><strong>English Words:</strong> Guess from a large collection of English words</p>
+            <p><strong>English Words:</strong> Guess from a collection of English words</p>
         </div>
     </div>
 </body>

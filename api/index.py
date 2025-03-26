@@ -1,47 +1,49 @@
-from flask import Flask, session, redirect, url_for, request, render_template
+from flask import Flask, session, redirect, request, render_template, url_for
 import random
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
 
-def choose_word(difficulty):
-    easy_words = ["cat", "dog", "book", "fish", "home", "tree", "bird", "game", "play", "jump"]
-    hard_words = ["python", "developer", "algorithm", "programming", "javascript", "database", "framework", "encryption"]
-    return random.choice(easy_words if difficulty == 'easy' else hard_words)
+PROGRAMMING_WORDS = ["python", "developer", "algorithm", "programming", "javascript", "database", "framework", "encryption"]
+ENGLISH_WORDS = ["cat", "dog", "book", "fish", "home", "tree", "bird", "game", "play", "jump", "happy", "world", "smile"]
+
+def choose_word(game_mode):
+    return random.choice(PROGRAMMING_WORDS if game_mode == 'app1' else ENGLISH_WORDS)
 
 def display_word(word, guessed_letters):
     return " ".join(letter if letter in guessed_letters else "_" for letter in word)
 
-def init_game(difficulty):
-    session['word'] = choose_word(difficulty)
+def init_game(game_mode):
+    session['word'] = choose_word(game_mode)
     session['guessed_letters'] = []
-    session['attempts'] = 8 if difficulty == 'easy' else 6
-    session['difficulty'] = difficulty
+    session['attempts'] = 6
+    session['game_mode'] = game_mode
 
 @app.route('/')
 def welcome():
     return render_template('welcome.html')
 
-@app.route('/game/<difficulty>')
-def game(difficulty):
-    if difficulty not in ['easy', 'hard']:
-        return redirect(url_for('welcome'))
-    
-    init_game(difficulty)
-    word = session['word']
-    guessed_letters = set(session.get('guessed_letters', []))
-    attempts = session.get('attempts', 6)
-    current_display = display_word(word, guessed_letters)
-    message = ""
-    game_over = False
-
+@app.route('/app1')
+def programming_game():
+    init_game('app1')
     return render_template("index.html",
-                         current_display=current_display,
-                         guessed_letters=sorted(guessed_letters),
-                         attempts=attempts,
-                         message=message,
-                         game_over=game_over,
-                         difficulty=difficulty)
+                         current_display=display_word(session['word'], set()),
+                         guessed_letters=[],
+                         attempts=6,
+                         message="",
+                         game_over=False,
+                         game_mode='Programming Words')
+
+@app.route('/app2')
+def english_game():
+    init_game('app2')
+    return render_template("index.html",
+                         current_display=display_word(session['word'], set()),
+                         guessed_letters=[],
+                         attempts=6,
+                         message="",
+                         game_over=False,
+                         game_mode='English Words')
 
 @app.route('/guess', methods=['POST'])
 def make_guess():
@@ -50,7 +52,6 @@ def make_guess():
     word = session.get('word')
     guessed_letters = set(session.get('guessed_letters', []))
     attempts = session.get('attempts', 6)
-    difficulty = session.get('difficulty', 'easy')
     message = ""
 
     if not guess or len(guess) != 1 or not guess.isalpha():
@@ -87,14 +88,6 @@ def make_guess():
         "game_over": game_over,
         "image_url": image_url
     }
-
-@app.route('/app1')
-def app1():
-    return redirect('/app1')
-
-@app.route('/app2')
-def app2():
-    return redirect('/app2')
 
 if __name__ == '__main__':
     app.run(debug=True, port=3000)
