@@ -2,11 +2,15 @@ from flask import Flask, session, redirect, request, render_template, url_for, s
 import random
 import os
 
-app = Flask(__name__, static_folder='static')
-app.secret_key = 'your_secret_key'
+app = Flask(__name__)
+app.secret_key = os.environ.get('SECRET_KEY', 'your_secret_key')  # Better to use environment variable
+
+# Ensure paths are correct for Vercel
+STATIC_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'static')
+IMAGES_DIR = os.path.join(STATIC_DIR, 'images')
 
 # Create static/images directory if it doesn't exist
-os.makedirs(os.path.join(os.path.dirname(__file__), 'static', 'images'), exist_ok=True)
+os.makedirs(IMAGES_DIR, exist_ok=True)
 
 PROGRAMMING_WORDS = ["python", "developer", "algorithm", "programming", "javascript", "database", "framework", "encryption"]
 ENGLISH_WORDS = ["cat", "dog", "book", "fish", "home", "tree", "bird", "game", "play", "jump", "happy", "world", "smile"]
@@ -95,7 +99,8 @@ def make_guess():
 
 @app.route('/static/images/<path:filename>')
 def serve_image(filename):
-    return send_from_directory(os.path.join(app.static_folder, 'images'), filename)
+    return send_from_directory(IMAGES_DIR, filename)
 
+# For local development
 if __name__ == '__main__':
-    app.run(debug=True, port=3000)
+    app.run(host='0.0.0.0', port=3000)
