@@ -12,9 +12,9 @@ IMAGES_DIR = os.path.join(STATIC_DIR, 'images')
 # Create static/images directory if it doesn't exist
 os.makedirs(IMAGES_DIR, exist_ok=True)
 
-PROGRAMMING_WORDS = ["python", "developer", "hangman", "challenge", "programming", "education"]
+EASY_MODE = ["python", "developer", "hangman", "challenge", "programming", "education"]
 
-ENGLISH_WORDS = ["the", "of", "and", "a", "to", "in", "is", "you", "that", "it", "he", "was", "for", "on", "are", "as", "with", "his", "they", "I", "at", "be", "this", "have", "from",
+HARD_MODE = ["the", "of", "and", "a", "to", "in", "is", "you", "that", "it", "he", "was", "for", "on", "are", "as", "with", "his", "they", "I", "at", "be", "this", "have", "from",
     "or", "one", "had", "by", "word", "but", "not", "what", "all", "were", "we", "when", "your", "can", "said", "there", "use", "an", "each", "which", "she", "do", "how", "their", "if",
     "will", "up", "other", "about", "out", "many", "then", "them", "these", "so", "some", "her", "would", "make", "like", "him", "into", "time", "has", "look", "two", "more", "write", "go", "see",
     "number", "no", "way", "could", "people", "my", "than", "first", "water", "been", "call", "who", "oil", "its", "now", "find", "long", "down", "day", "did", "get", "come", "made", "may", "part",
@@ -56,7 +56,7 @@ ENGLISH_WORDS = ["the", "of", "and", "a", "to", "in", "is", "you", "that", "it",
     "total", "deal", "determine", "evening", "nor", "rope", "cotton", "apple", "details", "entire", "corn", "substances", "smell", "tools", "conditions", "cows", "track", "arrived", "located", "sir", "seat", "division", "effect", "underline", "view", "python", "developer", "hangman", "challenge", "programming", "education"]
 
 def choose_word(game_mode):
-    return random.choice(PROGRAMMING_WORDS if game_mode == 'app1' else ENGLISH_WORDS)
+    return random.choice(EASY_MODE if game_mode == 'app1' else HARD_MODE)
 
 def display_word(word, guessed_letters):
     return " ".join(letter if letter in guessed_letters else "_" for letter in word)
