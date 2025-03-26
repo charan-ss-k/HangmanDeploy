@@ -4,9 +4,25 @@
         {
             "src": "api/index.py",
             "use": "@vercel/python"
+        },
+        {
+            "src": "app1.py",
+            "use": "@vercel/python"
+        },
+        {
+            "src": "app2.py",
+            "use": "@vercel/python"
         }
     ],
     "routes": [
+        {
+            "src": "/app1",
+            "dest": "app1.py"
+        },
+        {
+            "src": "/app2",
+            "dest": "app2.py"
+        },
         {
             "src": "/(.*)",
             "dest": "api/index.py"
